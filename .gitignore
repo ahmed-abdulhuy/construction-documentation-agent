@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.vscode
+env-rag
+stella_en_1.5B_v5
+*.pkl
+*.xlsx
+*.csv
+frontend
