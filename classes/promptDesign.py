@@ -19,3 +19,7 @@ class RecordPrompt:
 
         return np.array(promptList)
 
+    def writePrompt(self, dataRecord):
+        keys = dataRecord.keys()
+        values = dataRecord.values()
+        

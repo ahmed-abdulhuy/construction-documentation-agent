@@ -19,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 def sanitize_dict(d):
     return {
         k: (None if isinstance(v, float) and math.isnan(v) else v)
@@ -32,4 +33,4 @@ rag = SimilarityCheck()
 async def read_root(query: str = ''):
     cosineSimilarity = rag.checkSimilarity(query)
     cosineSimilarity = [sanitize_dict(item) for item in cosineSimilarity]
-    return json.dumps(cosineSimilarity), 
+    return json.dumps(cosineSimilarity)
