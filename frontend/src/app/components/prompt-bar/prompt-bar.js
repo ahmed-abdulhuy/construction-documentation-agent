@@ -6,7 +6,7 @@ import { useState } from "react";
  * @param {(response: string) => void} setResponse - Function to set the response state
  * @returns {Promise<void>}
  */
-export default function PromptBar(setResponse) {
+export default function PromptBar({ setResponse }) {
     const [prompt, setPrompt] = useState('');
 
     // fetch the response from the server and set the response state
@@ -15,7 +15,7 @@ export default function PromptBar(setResponse) {
         e.preventDefault();
         const res = await fetch(`http://localhost:8000/?query=${encodeURIComponent(prompt)}`);
         const data = await res.json();
-        setResponse(JSON.parse(data[0]));
+        setResponse(JSON.parse(data));
     };
 
     return (

@@ -31,7 +31,7 @@ class SimilarityCheck:
 
     def checkSimilarity(self, query):
         cosineSimilarity = self.getCosineSimilarity(query)
-        values, indices = cosineSimilarity.topk(5)
+        _, indices = cosineSimilarity.topk(5)
         topPrompts = [self.promptList[idx] for idx in indices]
         return topPrompts
 
