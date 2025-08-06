@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import PromptBar from './components/prompt-bar/prompt-bar';
+import DocumentsTable from './components/documents-table/documents-table';
 
 export default function Home() {
   const [response, setResponse] = useState('');
@@ -10,30 +11,9 @@ export default function Home() {
       <PromptBar setResponse={setResponse} />
       {
         response && Array.isArray(response) &&
-        response.map((item, index) => {
+        response.map((document, index) => {
           return (
-          <div key={index} className="overflow-x-auto">
-            <table className="min-w-full border border-gray-300">
-              <thead className="bg-gray-100">
-                <tr>
-                  {Object.keys(item).map((col, idx) => (
-                    <th key={idx} className="px-4 py-2 border">
-                      {col}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="hover:bg-gray-50">
-                  {Object.values(item).map((col, idx) => (
-                    <td key={idx} className="px-4 py-2 border">
-                      {col}
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <DocumentsTable key={index} documentProps={document}/>        
       )})}
     </>   
   );
