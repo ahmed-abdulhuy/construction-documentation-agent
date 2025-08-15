@@ -11,11 +11,13 @@ class SimilarityCheck:
         embeddingsArr = self.loadPickleFile(embeddingsFilePath)
         self.promptList = self.loadPickleFile(promptListFilePath)
         self.embeddingsVector = torch.tensor(embeddingsArr)
+        print(f"Loaded embeddings shape: {self.embeddingsVector.shape}")
 
 
     def loadPickleFile(self, filePath):
         with open(filePath, 'rb') as f:
             embeddingsList = pickle.load(f)
+            print(f"Loaded from {filePath}, shape: {embeddingsList.shape}")
         return embeddingsList 
 
 
@@ -26,12 +28,15 @@ class SimilarityCheck:
         cosineSimilarity = torch.nn.functional.cosine_similarity(
             self.embeddingsVector, queryVector, dim=1
         )
+        
         return cosineSimilarity
     
 
     def checkSimilarity(self, query):
         cosineSimilarity = self.getCosineSimilarity(query)
         _, indices = cosineSimilarity.topk(5)
+        print("Top 5 Indices:", indices)
+        print("Top 5 Similarity Scores:", [cosineSimilarity[scoreIdx] for scoreIdx in indices])
         topPrompts = [self.promptList[idx] for idx in indices]
         return topPrompts
 

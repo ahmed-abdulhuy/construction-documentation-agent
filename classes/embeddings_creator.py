@@ -1,8 +1,9 @@
+import json
 import pickle
 import numpy as np
 from tqdm import tqdm
 
-from classes.LLM import Model
+from LLM import Model
 
 
 class EmbeddingsCreator:
@@ -15,8 +16,7 @@ class EmbeddingsCreator:
         embeddingList = []
         for prompt in tqdm(self.promptsList, desc="Creating embeddings"):
             embeddingList.append(self.llm.createEmbedding(prompt))
-            break
-
+            
         return np.array(embeddingList)
 
 
@@ -30,11 +30,18 @@ class EmbeddingsCreator:
         with open(filePath, 'rb') as f:
             embeddingsList = pickle.load(f)
         return embeddingsList
-    
+
 
 if __name__ == "__main__":
-    with open('promptList_text.pkl', 'rb') as f:
-        promptsList = pickle.load(f)
+    with open('records.json', 'rb') as f:
+        records = json.load(f)
+    promptsList = [record['prompt'] for record in records]
+    print(f"Total prompts: {len(promptsList)}")
+    print("Creating embeddings...")
+    # Create an instance of EmbeddingsCreator with the prompts list
     embeddingsCreator = EmbeddingsCreator(promptsList=promptsList)
+
     embeddingsList = embeddingsCreator.createEmbeddingList()
     embeddingsCreator.saveEmbeddingList(embeddingsList, "embeddings.pkl")
+    print(f"Embeddings shape: {embeddingsList.shape}")
+    print("Embeddings creation completed.")
