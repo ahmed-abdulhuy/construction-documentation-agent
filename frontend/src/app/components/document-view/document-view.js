@@ -9,7 +9,18 @@ export default function DocumentView({ documentProps }) {
                 return (
                     <li key={index} className="mb-2">
                         <span className="font-semibold">{item}: </span>
-                        {typeof documentProps[item] !== 'object' && (<span>{documentProps[item]}</span>)} 
+                        {typeof documentProps[item] !== 'object' ? (<span>{documentProps[item]}</span>) : 
+                            documentProps[item] && Object.keys(documentProps[item]).map((subItem, subIndex) => (
+                                <>
+                                    <ul className="list-[square] list-inside pl-8">
+                                        <li key={subIndex}>
+                                                <span className="font-semibold">{subItem}: </span>
+                                                <span>{documentProps[item][subItem]}</span>
+                                        </li>
+                                    </ul>
+                                </>
+                            ))
+                        } 
                     </li>
                 )})}
             </ul>
