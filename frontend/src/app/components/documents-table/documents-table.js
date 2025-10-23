@@ -1,7 +1,4 @@
 
-
-
-
 export default function DocumentsTable( { documentProps }) {
     return (
         <div className="overflow-x-auto mt-6">
@@ -26,6 +23,5 @@ export default function DocumentsTable( { documentProps }) {
             </tbody>
         </table>
         </div>
-
     )
 }
