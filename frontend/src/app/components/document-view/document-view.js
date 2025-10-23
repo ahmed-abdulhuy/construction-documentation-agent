@@ -8,8 +8,8 @@ export default function DocumentView({ documentProps }) {
                 console.log('item:', item, 'value:', documentProps[item]);
                 return (
                     <li key={index} className="mb-2">
-                        <p className="font-semibold">{item}:</p>
-                        {typeof documentProps[item] !== 'object' && (<p>{documentProps[item]}</p>)} 
+                        <span className="font-semibold">{item}: </span>
+                        {typeof documentProps[item] !== 'object' && (<span>{documentProps[item]}</span>)} 
                     </li>
                 )})}
             </ul>
