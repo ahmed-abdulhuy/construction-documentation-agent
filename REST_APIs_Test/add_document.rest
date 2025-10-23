@@ -1,0 +1,45 @@
+# Add Document
+POST http://localhost:8000/documents/add HTTP/1.1
+content-type: application/json
+
+{
+    "documents": [{
+        "id": "BRF-002",
+        "text": "Wed, 21 Oct 2015 18:27:50 GMT",
+        "metadata": {"source": "sample"}
+    }]
+}
+
+###
+# Read Documents (QUERY)
+POST http://localhost:8000/documents/query HTTP/1.1
+content-type: application/json
+
+{
+    "queryTexts": ["Date"],
+    "nResults": 3
+}
+
+###
+# Read Documents (By ID)
+GET http://localhost:8000/documents/BRF-001 HTTP/1.1
+
+
+###
+# Update Document by ID
+PUT http://localhost:8000/documents/update HTTP/1.1
+content-type: application/json  
+
+{
+    "id": "BRF-002",
+    "newText": "Wed, 05 Oct 2021 18:27:50 GMT",
+    "newMetadata": {"source": "sample-updated"}
+}
+
+###
+DELETE http://localhost:8000/documents/delete HTTP/1.1
+content-type: application/json
+
+{
+    "ids": ["BRF-002"]
+}

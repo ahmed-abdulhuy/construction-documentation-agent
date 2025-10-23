@@ -1,19 +1,37 @@
 'use client';
-import { useState } from 'react';
-import PromptBar from './components/prompt-bar/prompt-bar';
-import DocumentsTable from './components/documents-table/documents-table';
+import { useState, useEffect } from 'react';
+import DocumentView from './components/document-view/document-view';
+import { fetchedDocumentsProcess } from '@/utilities';
 
 export default function Home() {
-  const [response, setResponse] = useState('');
-  
+  const [documentList, setDocumentList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/documents/BRF-001");
+        const data = await res.json();
+        const processedDocumentList = fetchedDocumentsProcess(data);
+        setDocumentList(processedDocumentList);
+      } catch (error) {
+        console.error("Error fetching documents:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
+
+  if (loading) {
+    return <p className="text-gray-500 text-center mt-10">Loading...</p>;
+  }
   return (
     <>
-      <PromptBar setResponse={setResponse} />
-      {
-        response && Array.isArray(response) &&
-        response.map((document, index) => {
-          return (
-            <DocumentsTable key={index} documentProps={document}/>        
+      {documentList.map((document, index) => {
+        return (
+        <DocumentView key={index} documentProps={document} />
       )})}
     </>   
   );
