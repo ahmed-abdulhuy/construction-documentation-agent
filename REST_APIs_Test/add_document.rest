@@ -10,6 +10,11 @@ content-type: application/json
     }]
 }
 
+
+###
+# Read Documents (ALL)
+GET http://localhost:8000/documents/ HTTP/1.1
+
 ###
 # Read Documents (QUERY)
 POST http://localhost:8000/documents/query HTTP/1.1

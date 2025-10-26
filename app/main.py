@@ -53,14 +53,27 @@ def addDocuments(request: AddDocumentsRequest):
     metadatas = [doc.metadata for doc in request.documents]
 
     dbManager.addDocuments(ids, texts, metadatas)
-    return {"message": f"Added {len(ids)} documents."}
+    return {
+        "message": f"Added {len(ids)} documents.",
+        "documents": dbManager.getByID(ids)
+        }
 
-# READ
+# READ-ALL
+@app.get("/documents/")
+def getAllDocuments():
+    results = dbManager.getAllDocuments()
+    return results
+
+# READ-QUERY
 @app.post("/documents/query")
 def queryDocuments(request: QueryRequest):
     results = dbManager.query(request.queryTexts, request.nResults)
-    return results
+    return {
+        "message": f"queried documents.",
+        "documents": results
+    }
 
+# READ-BY ID
 @app.get("/documents/{docID}")
 def getDocument(docID: str):
     results = dbManager.getByID([docID])
@@ -72,7 +85,10 @@ def getDocument(docID: str):
 @app.put("/documents/update")
 def updateDocument(request: UpdateDocumentRequest):
     dbManager.updateDocument(request.id, request.newText, request.newMetadata)
-    return {"message": f"Document {request.id} updated."}
+    return {
+        "message": f"Document {request.id} updated.",
+        "documents": dbManager.getByID([request.id])
+        }
 
 # DELETE
 @app.delete("/documents/delete")
