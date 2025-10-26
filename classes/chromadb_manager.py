@@ -27,7 +27,16 @@ class ChromaDBManager:
         print(f"Added {len(ids)} documents.")
 
 
-    # READ 
+    # READ-ALL
+    def getAllDocuments(self):
+        """
+        Retrieve all documents in the collection.
+        """
+        results = self.collection.get()
+        return results
+    
+
+    # READ-QUERY
     def query(self, queryTexts: list, nResults: int = 5):
         """
         Query the collection by text similarity.
@@ -39,6 +48,7 @@ class ChromaDBManager:
         return results
 
 
+    # READ-BY ID
     def getByID(self, ids: list):
         """
         Retrieve documents by their IDs.
