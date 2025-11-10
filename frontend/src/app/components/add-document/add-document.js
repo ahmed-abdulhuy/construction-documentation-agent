@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { fetchedDocumentsProcess } from '@/utilities';
+import { fetchedDocumentsProcess } from '@/app/utils/utilities';
 
 
 // API Call for adding a document

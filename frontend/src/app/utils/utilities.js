@@ -1,3 +1,7 @@
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+
 export function fetchedDocumentsProcess(documentsObj) {
     /*It takes fetched documents objected and process it to list of documents */
     const keys = Object.keys(documentsObj);
@@ -29,4 +33,9 @@ export function queriedDocumentsProcess(documentsObj) {
     }
     );
     return documentsList;
+}
+
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
 }

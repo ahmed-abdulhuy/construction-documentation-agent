@@ -1,4 +1,4 @@
-import { fetchedDocumentsProcess, queriedDocumentsProcess } from "@/utilities";
+import { fetchedDocumentsProcess, queriedDocumentsProcess } from "@/app/utils/utilities";
 import { useState } from "react";
 
 
