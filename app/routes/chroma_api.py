@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.models import AddDocumentsRequest, QueryRequest, UpdateDocumentRequest, DeleteRequest
-from classes.chromadb_manager import ChromaDBManager
+from app.chromaDB_API.models import AddDocumentsRequest, QueryRequest, UpdateDocumentRequest, DeleteRequest
+from app.chromaDB_API.chromadb_manager import ChromaDBManager
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 

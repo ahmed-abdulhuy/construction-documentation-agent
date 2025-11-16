@@ -1,4 +1,4 @@
-from classes.LLM import Model
+from chromaDB_API.LLM import Model
 import torch
 import pickle
 
