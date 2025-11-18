@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlmodel.ext.asyncio.session import AsyncSession
-from db.models import WIR, WIRCreate
-from db.main import getAsyncDB
+from app.db.models import WIR, WIRCreate
+from app.db.main import getAsyncDB
 import uuid
 from sqlmodel import select
 
@@ -35,7 +35,7 @@ async def createWIR(wirData: WIRCreate, session: AsyncSession = Depends(getAsync
 # update WIR document
 @wirRouter.put("/update/{wirID}/")
 async def updateWIR(wirID: uuid.UUID, wir: WIR, session: AsyncSession = Depends(getAsyncDB)):
-    wirInstant = await selectWIRByID(wirID, session)
+    wirInstant = await selectWIRByID(wir.id, session)
     if not wirInstant:
         return {"message": "WIR Document not found"}
         

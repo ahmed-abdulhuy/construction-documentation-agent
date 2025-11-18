@@ -1,15 +1,67 @@
 from sqlmodel import SQLModel, Field, Column, Relationship
 import sqlalchemy.dialects.postgresql as pg
+from pydantic import BaseModel, field_validator, EmailStr
 from typing import List, Optional
 from datetime import date
 import uuid
-from pydantic import field_validator, BaseModel
-# from sqlalchemy import Column
 
-class User(SQLModel, table=True):  # Defines a SQL table
+
+class TokenPayload(BaseModel):
+    sub: Optional[str] = None
+    exp: Optional[int] = None
+
+
+class UpdatePassword(BaseModel):
+    current_password: str = Field(min_length=8, max_length=128)
+    new_password: str = Field(min_length=8, max_length=128)
+
+
+# Generic message
+class Message(SQLModel):
+    message: str
+
+# Create common BaseModel for user's shared properties
+class UserBase(SQLModel):
+    # User fields
+    email: EmailStr = Field(unique=True)  # Email is unique
+    name: str  # Full name of the user
+    is_active: bool = True
+    is_superuser: bool = False
+
+# Properties to receive via API on creation
+class UserCreate(UserBase):
+    password: str = Field(min_length=8, max_length=128)
+
+class UserUpdateMe(BaseModel):
+    name: str | None = Field(default=None, max_length=255)
+    email: EmailStr | None = Field(default=None, max_length=255)
+
+
+class UserRegister(SQLModel):
+    email: EmailStr = Field(max_length=255)
+    password: str = Field(min_length=8, max_length=128)
+    name: str | None = Field(default=None, max_length=255)
+
+
+# Properties to receive via API on update, all are optional
+class UserUpdate(UserBase):
+    email: EmailStr | None = Field(default=None, max_length=255)  # type: ignore
+    password: str | None = Field(default=None, min_length=8, max_length=128)
+
+# Properties to return via API, id is always required
+class UserPublic(UserBase):
+    id: uuid.UUID
+
+class UsersPublic(SQLModel):
+    data: list[UserPublic]
+    count: int
+
+    
+
+
+# Users table
+class User(UserBase, table=True):
     __tablename__ = "users"
-
-    # UUID as primary key
     id: uuid.UUID = Field(
         sa_column=Column(
             pg.UUID,
@@ -18,13 +70,12 @@ class User(SQLModel, table=True):  # Defines a SQL table
             default=uuid.uuid4
         )
     )
-    # User fields
-    email: str = Field(unique=True)  # Email is unique
-    name: str  # Full name of the user
+    hashed_password: str
 
     # Representation for debugging
     def __repr__(self):
         return f"<User {self.email}>"
+
 
 
 class Discipline(SQLModel, table=True):
@@ -89,3 +140,8 @@ class WIRCreate(BaseModel):
         if isinstance(v, str):
             return date.fromisoformat(v)
         return v
+    
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"

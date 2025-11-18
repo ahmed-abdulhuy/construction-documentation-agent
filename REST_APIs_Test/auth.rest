@@ -1,0 +1,5 @@
+POST http://localhost:8000/login/access-token HTTP/1.1 
+Content-Type: application/x-www-form-urlencoded
+accept: application/json
+
+grant_type=password&username=a.abdelhay@asico.com&password=testPassword123!&scope=&client_id=string&client_secret=string

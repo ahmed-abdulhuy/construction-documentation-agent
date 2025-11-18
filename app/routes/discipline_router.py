@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlmodel.ext.asyncio.session import AsyncSession
-from db.models import Discipline
-from db.main import getAsyncDB
+from app.db.models import Discipline
+from app.db.main import getAsyncDB
 import uuid
 from sqlmodel import select
 
