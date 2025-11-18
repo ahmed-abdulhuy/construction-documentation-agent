@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app code (both app/ and classes/)
 COPY app/ ./app
-COPY classes/ ./classes
+# COPY classes/ ./classes
 
 # Make classes importable
 ENV PYTHONPATH=/app
