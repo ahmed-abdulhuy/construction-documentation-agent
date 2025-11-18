@@ -6,14 +6,14 @@ import uuid
 from sqlmodel import select
 
 
-disciplineRouter = APIRouter(prefix="/discipline", tags=["discipline"])
+router = APIRouter(prefix="/discipline", tags=["discipline"])
 
-@disciplineRouter.get("/")
+@router.get("/")
 def disciplineInit():
     return {"Message": "Discipline End Point"}
 
 # GET Discipline
-@disciplineRouter.get("/{disciplineID}")
+@router.get("/{disciplineID}")
 async def getDisciplineByID(disciplineID: uuid.UUID, session: AsyncSession = Depends(getAsyncDB)):
     print("Fetch By ID")
     disciplineInstant = await selectDisciplineByID(disciplineID, session)
@@ -23,7 +23,7 @@ async def getDisciplineByID(disciplineID: uuid.UUID, session: AsyncSession = Dep
 
 
 # CREATE Discipline
-@disciplineRouter.post("/create")
+@router.post("/create")
 async def createDiscipline(discipline: Discipline, session: AsyncSession = Depends(getAsyncDB)):
     session.add(discipline)
     await session.commit()
@@ -31,7 +31,7 @@ async def createDiscipline(discipline: Discipline, session: AsyncSession = Depen
     return discipline
 
 # UPDATE Discipline
-@disciplineRouter.put("/update/{disciplineID}/")
+@router.put("/update/{disciplineID}/")
 async def updateDiscipline(disciplineID: uuid.UUID, discipline: Discipline, session: AsyncSession = Depends(getAsyncDB)):
     disciplineInstant = await selectDisciplineByID(disciplineID, session)
     if not disciplineInstant:
@@ -46,7 +46,7 @@ async def updateDiscipline(disciplineID: uuid.UUID, discipline: Discipline, sess
 
 
 # DELETE Discipline
-@disciplineRouter.delete("/delete/{disciplineID}/")
+@router.delete("/delete/{disciplineID}/")
 async def deleteDiscipline(disciplineID: uuid.UUID, session: AsyncSession = Depends(getAsyncDB)):
     disciplineInstant = await selectDisciplineByID(disciplineID, session)
     if not disciplineInstant:
