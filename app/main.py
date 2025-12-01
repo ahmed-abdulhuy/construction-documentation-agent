@@ -1,17 +1,12 @@
+from app.routes import login_router, wir_router, user_router, chroma_api, discipline_router
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, Depends
-import os
+from app.db.main import initDB
+from fastapi import FastAPI
 import sys
-from app.chroma_api import router as chroma_router
-from db.models import User
-from db.main import initDB, getAsyncDB
+import os
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from sqlmodel.ext.asyncio.session import AsyncSession
-from typing import List
-
-
-app = FastAPI(title="ChromaDB CRUD API")
-
+app = FastAPI(title="Kemit", version="0.1.0")
 
 # Allow requests from your frontend
 app.add_middleware(
@@ -21,20 +16,14 @@ app.add_middleware(
     allow_methods=["*"],       # You can restrict this to ['GET', 'POST'] if you want
     allow_headers=["*"],
 )
-# app.include_router(chroma_router)
 
 @app.on_event("startup")
 async def on_startup():
     await initDB()
 
-@app.get("/")
-def readRoot():
-    return {"message": "Welcome to the ChromaDB CRUD API"}
 
-@app.post("/request/")
-async def createRequest(user: User, session: AsyncSession = Depends(getAsyncDB)):
-    session.add(user)
-    await session.commit()
-    await session.refresh(user)
-    return user
-
+# app.include_router(chroma_api.router)
+app.include_router(wir_router.wirRouter)
+app.include_router(discipline_router.router)
+app.include_router(login_router.router)
+app.include_router(user_router.router)

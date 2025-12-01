@@ -1,0 +1,30 @@
+GET http://localhost:8000/wir/ HTTP/1.1
+
+### Get By ID
+GET http://localhost:8000/wir/99f19681-cc2f-4307-8150-2441657c6c75 HTTP/1.1
+
+### Create WIR
+POST http://localhost:8000/wir/create HTTP/1.1
+content-type: application/json
+
+{
+    "title": "WIR for Factor Encore Plots",
+    "drawingRef": "DRW-2024-001",
+    "areaRef": "ARE-2024-001",
+    "partLevelRef": "PLR-2024-001",
+    "plannedInspDate": "2024-06-15",
+    "inspectionDate": "2024-06-15",
+    "discipline_id": "5baf54a5-ccdc-475c-9656-ebac64814022"
+}
+
+### Update WIR
+
+PUT http://localhost:8000/wir/update/99f19681-cc2f-4307-8150-2441657c6c75 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "WIR for beams"
+}
+
+### Delete WIR
+DELETE http://localhost:8000/wir/delete/99f19681-cc2f-4307-8150-2441657c6c75 HTTP/1.1
