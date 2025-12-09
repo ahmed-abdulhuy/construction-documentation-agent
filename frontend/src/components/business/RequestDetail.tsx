@@ -76,24 +76,25 @@ export default function RequestDetail({ request: initialRequest }: RequestDetail
     },
   };
 
-  const handleStatusUpdate = (newStatus: RequestStatus) => {
-    const updated = requestService.updateRequestStatus(
-      request.id,
-      newStatus,
-      newStatus !== 'draft' && newStatus !== 'pending' ? {
-        reviewedBy: currentUser.id,
-        reviewerName: currentUser.name,
-        reviewNotes: reviewNotes || undefined,
-      } : undefined
-    );
+  //! Disabled until configuring Update 
+  // const handleStatusUpdate = (newStatus: RequestStatus) => {
+  //   const updated = requestService.updateRequestStatus(
+  //     request.id,
+  //     newStatus,
+  //     newStatus !== 'draft' && newStatus !== 'pending' ? {
+  //       reviewedBy: currentUser.id,
+  //       reviewerName: currentUser.name,
+  //       reviewNotes: reviewNotes || undefined,
+  //     } : undefined
+  //   );
 
-    if (updated) {
-      setRequest(updated);
-      setReviewNotes('');
-      setIsReviewing(false);
-    //   toast.success(`Request ${newStatus === 'approved' ? 'approved' : 'rejected'}`);
-    }
-  };
+  //   if (updated) {
+  //     setRequest(updated);
+  //     setReviewNotes('');
+  //     setIsReviewing(false);
+  //   //   toast.success(`Request ${newStatus === 'approved' ? 'approved' : 'rejected'}`);
+  //   }
+  // };
 
   const statusMeta = statusConfig[request.status];
 
@@ -330,7 +331,8 @@ export default function RequestDetail({ request: initialRequest }: RequestDetail
                     onChange={(e) => setReviewNotes(e.target.value)}
                   />
 
-                  <Box sx={{ display: "flex", gap: 2 }}>
+                  {/*! Disabled until configuring update */}
+                  {/* <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
                       variant="contained"
                       color="success"
@@ -358,7 +360,7 @@ export default function RequestDetail({ request: initialRequest }: RequestDetail
                     >
                       Cancel
                     </Button>
-                  </Box>
+                  </Box> */}
                 </Box>
               )}
             </Box>

@@ -1,26 +1,66 @@
+"use client";
+
 // app/requestDetails/[id]/page.tsx
-import { redirect } from "next/navigation";
 import { requestService } from "@/lib/requestService";
 import RequestDetail from "@/components/business/RequestDetail";
-
-interface Props {
-  params: {
-    id: string;
-  };
-} 
+import NewRequest from "@/app/RequestDetails/[id]/newRequest";
+import { useEffect, useState } from "react";
+import { RequestDocument } from "@/lib/types";
+import { useParams, useRouter } from "next/navigation";
 
 
-export default async function RequestDetailPage({ params }: Props) {
-  const { id } = await params;
+export default function RequestDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const { id } = params as { id: string };
+  const [request, setRequest] = useState<RequestDocument | undefined>();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log("Request ID from params:", id);
+    if (!id) {
+      router.replace("/NotFound");
+      return;
+    }
+    if (id === "new") {
+      return; // Handled separately
+    }
+
+    async function LoadRequest() {
+      try {
+        const fetchedRequest = await requestService.getRequestById(id);
+        console.log("Fetched Request:", fetchedRequest);
+        if (!fetchedRequest) {
+          router.replace("/NotFound");
+          return;
+        }
+        setRequest(fetchedRequest);
+
+      } catch {
+        router.replace("/NotFound");
+      } finally {
+        setLoading(false);
+      }
+    }
+    LoadRequest();
+  }, [id, router]);
+
+  console.log("Request ID:", id);
   if (!id) {
-    redirect("/");
+    router.push("/NotFound");
   }
-
-  const request = requestService.getRequestById(id);
-
-  if (!request) {
-    redirect("/NotFound"); // automatically shows Next.js 404 page
+  
+  if(id === "new") {
+    return <NewRequest />
   }
+  if(loading) {
+    return <div>Loading...</div>;
+  }
+  
+  console.log("Request Data:", request);
+  // if (!request) {
+  //   router.push("/NotFound"); // automatically shows Next.js 404 page
+  // }
 
   return <RequestDetail request={request} />;
 }

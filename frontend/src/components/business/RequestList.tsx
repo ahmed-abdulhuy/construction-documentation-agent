@@ -1,7 +1,7 @@
 "use client"
 
 // Business logic component - uses UI components but contains the logic
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { RequestDocument, RequestFilters, RequestStatus, RequestPriority } from '@/lib/types';
 import { requestService } from '@/lib/requestService';
@@ -13,7 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 
 export function RequestList() {
-  const router = useRouter();
+  const router = useRouter(); 
   const [filters, setFilters] = useState<RequestFilters>({});
   const [searchTerm, setSearchTerm] = useState('');
   const [requests, setRequests] = useState<RequestDocument[]>([]);
@@ -42,12 +42,6 @@ export function RequestList() {
     loadRequests();
   }, [filters, searchTerm]);
 
-  // const requests = useMemo(() => {
-  //   return requestService.filterRequests({
-  //     ...filters,
-  //     searchTerm: searchTerm || undefined
-  //   });
-  // }, [filters, searchTerm]);
 
   const handleStatusFilterChange = (statuses: RequestStatus[]) => {
     setFilters(prev => ({ ...prev, status: statuses.length ? statuses : undefined }));

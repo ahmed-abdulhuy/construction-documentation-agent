@@ -1,13 +1,12 @@
 // Business logic service - no UI dependencies
 import { RequestDocument, RequestFilters, RequestStatus } from './types';
-import { mockRequests } from './mockData';
 
-const API_Base = "http://localhost:8000";
 
 class RequestService {
-
+  
   // private requests: RequestDocument[] = [...mockRequests];
   private async api(path: string, options: RequestInit = {}) {
+    const API_Base = "http://localhost:8000";
     const response = await fetch(`${API_Base}${path}`, {
       ...options,
       credentials: 'include',
@@ -19,7 +18,12 @@ class RequestService {
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
     }
-    return response.json();
+
+    try {
+      return await response.json();
+    } catch {
+      throw new Error("Returned Invalid Json")
+    }
   }
 
   async getMyRequests(): Promise<RequestDocument[]> {
@@ -31,9 +35,9 @@ class RequestService {
   }
 
   async getRequestById(id: string): Promise<RequestDocument | undefined> {
-    const request = await this.api(`/wir/${id}`); // Fetch from API
+    console.log(id)
+    const request = await this.api(`/wir/${id}/`); // Fetch from API
     return request;
-    // return this.requests.find(req => req.id === id);
   }
 
   async filterRequests(filters: RequestFilters): Promise<RequestDocument[]> {
