@@ -1,5 +1,5 @@
 // Business logic service - no UI dependencies
-import { RequestDocument, RequestFilters, RequestStatus } from './types';
+import { NewRequestData, RequestDocument, RequestFilters, RequestStatus } from './types';
 
 
 class RequestService {
@@ -29,13 +29,9 @@ class RequestService {
   async getMyRequests(): Promise<RequestDocument[]> {
     const requests = await this.api("/wir/"); // Fetch from API
     return requests;
-    // return [...requests].sort((a, b) => 
-    //   new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    // );
   }
 
   async getRequestById(id: string): Promise<RequestDocument | undefined> {
-    console.log(id)
     const request = await this.api(`/wir/${id}/`); // Fetch from API
     return request;
   }
@@ -67,17 +63,15 @@ class RequestService {
     );
   }
 
-  //! Disabled until configuring UI to create new requests
-  // createRequest(data: Omit<RequestDocument, 'id' | 'createdAt' | 'updatedAt'>): RequestDocument {
-  //   const newRequest: RequestDocument = {
-  //     ...data,
-  //     id: `req-${Date.now()}`,
-  //     createdAt: new Date().toISOString(),
-  //     updatedAt: new Date().toISOString(),
-  //   };
-  //   this.requests.push(newRequest);
-  //   return newRequest;
-  // }
+  async createRequest(data: NewRequestData): Promise<RequestDocument> {
+    const options: RequestInit = {
+      method: 'POST',
+      body: JSON.stringify(data),
+    };
+    const result = await this.api('/wir/create/', options);
+    const newRequest: RequestDocument = result;    
+    return newRequest;
+  }
 
   // ! Disabled until configuring UI to update requests
   // updateRequest(id: string, updates: Partial<RequestDocument>): RequestDocument | null {

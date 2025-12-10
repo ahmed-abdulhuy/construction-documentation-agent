@@ -35,6 +35,14 @@ export interface RequestDocument {
   estimatedCost?: number;
 }
 
+export interface NewRequestData {
+  title: string;
+  description: string;
+  category: string;
+  priority: RequestPriority;
+  status: RequestStatus;
+}
+
 export interface RequestFilters {
   status?: RequestStatus[];
   priority?: RequestPriority[];
