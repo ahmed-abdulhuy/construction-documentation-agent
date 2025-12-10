@@ -8,14 +8,14 @@ stella_en_1.5B_v5
 *.pkl
 *.xlsx
 *.csv
-
+chromadb_store
 ============================
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-node_modules
-.pnp
+frontend/node_modules/
+/.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -24,14 +24,14 @@ node_modules
 !.yarn/versions
 
 # testing
-coverage
+/coverage
 
 # next.js
-.next/
-out/
+frontend/.next/
+/out/
 
 # production
-build
+/build
 
 # misc
 .DS_Store
@@ -52,4 +52,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-chromadb_store
+
+REST_APIs_Test

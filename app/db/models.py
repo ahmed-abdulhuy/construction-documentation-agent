@@ -71,7 +71,13 @@ class User(UserBase, table=True):
         )
     )
     hashed_password: str
-
+    wirs: List["WIR"] = Relationship(
+        back_populates="creator",
+        sa_relationship_kwargs={"foreign_keys": "[WIR.createdBy]"}
+        )
+    # reviews: List["WIR"] = Relationship(
+    #     back_populates="reviewer",
+    #     sa_relationship_kwargs={"foreign_keys": "[WIR.reviewedBy]"})
     # Representation for debugging
     def __repr__(self):
         return f"<User {self.email}>"
@@ -91,7 +97,7 @@ class Discipline(SQLModel, table=True):
     )
     name: str
     # description: Optional[str] = None
-    wirs: List["WIR"] = Relationship(back_populates="discipline")
+    # wirs: List["WIR"] = Relationship(back_populates="discipline")
 
 
 
@@ -109,38 +115,48 @@ class WIR (SQLModel, table=True):
     )
 
     title: str
-    issuingDate: date = Field(default=date.today())
-    drawingRef: str
-    areaRef: str
-    partLevelRef: Optional[str]=None
-    plannedInspDate: date # planned date of inspection
-    inspectionDate: date
-    # Discipline foreign ID
-    discipline_id: uuid.UUID = Field(foreign_key="disciplines.id")
-    discipline: Optional[Discipline] = Relationship(back_populates='wirs')
-    # Representation for debugging
+    description: str
+    category: str
+    priority: str
+    status: str
+
+    createdBy: uuid.UUID = Field(foreign_key="users.id")
+
+    issuingDate: date = Field(default_factory=date.today)
+    updatedAt: Optional[date]=None
+    submittedAt: Optional[date]=None
+    # reviewedAt: Optional[date]=None
+
+    # reviewedBy: Optional[uuid.UUID]= Field(
+    #     default=None, 
+    #     foreign_key="users.id",
+    #     nullable=True
+    #     )
+    
+    # reviewerComments: Optional[str]=None
+    # Relationship to creator and reviewer
+    creator: Optional[User] = Relationship(
+        back_populates="wirs",
+        sa_relationship_kwargs={"foreign_keys": "[WIR.createdBy]"}
+        )
+    
+    # reviewer: Optional[User] = Relationship(
+    #     back_populates="reviews",
+    #     sa_relationship_kwargs={"foreign_keys": "[WIR.reviewedBy]"}
+    #     )
+
     def __repr__(self):
-        return f"<Request {self.id} by User {self.user_id}>"
+        return f"<Request {self.id} by User {self.createdBy}>"
 
 
 
 class WIRCreate(BaseModel):
     title: str
-    drawingRef: str
-    areaRef: str
-    partLevelRef: Optional[str]=None
-    plannedInspDate: date # planned date of inspection
-    inspectionDate: date
-    # Discipline foreign ID
-    discipline_id: uuid.UUID
+    description: str
+    category: str
+    priority: str
+    status: str = "Draft"
 
-    @field_validator('plannedInspDate', 'inspectionDate', mode='before')
-    @classmethod
-    def validate_dates(cls, v):
-        if isinstance(v, str):
-            return date.fromisoformat(v)
-        return v
-    
 
 class Token(BaseModel):
     access_token: str
