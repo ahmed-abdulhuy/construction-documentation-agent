@@ -1,6 +1,6 @@
-FROM node:18
+FROM node:20
 
-WORKDIR /app
+WORKDIR /src
 
 # Install dependencies
 COPY package*.json ./
