@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: Jffi2024
       POSTGRES_DB: ffidb
     volumes:
-      - pgdata:/var/lib/postgresql
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -19,18 +19,28 @@ services:
     volumes:
       - ./:/app
     ports:
-      - "8000:8000"
+      - "8000:8000" # HTTP Port
+      - "5678:5678" # Debug Port
     environment:
       - PYTHONUNBUFFERED=1
+    command: >
+      python -m debugpy
+      --listen 0.0.0.0:5678
+      --wait-for-client
+      -m uvicorn app.main:app 
+      --host 0.0.0.0
+      --port 8000
+      --reload 
 
   frontend:
     build: ./frontend
     volumes:
       - ./frontend:/src          # mount entire project
-      - /src/node_modules   # prevent node_modules overwrite
+      - node_modules:/src/node_modules   # prevent node_modules overwrite
 
     ports:
       - "3000:3000"
+      - "9229:9229" # Debug Port
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
       - CHOKIDAR_USEPOLLING=true
@@ -39,3 +49,4 @@ services:
 
 volumes:
   pgdata:
+  node_modules:
