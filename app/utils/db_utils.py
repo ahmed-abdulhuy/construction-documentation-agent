@@ -1,6 +1,7 @@
 from sqlmodel import select
 from app.core.security import verify_password
-from app.db.models import User, UserCreate, UserUpdate
+from app.db.models.user import User
+from app.db.models.schemas import UserCreate, UserUpdate
 from typing import Any
 from sqlmodel.ext.asyncio.session import AsyncSession
 from typing import Annotated
