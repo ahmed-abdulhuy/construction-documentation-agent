@@ -47,7 +47,7 @@ class ApprovalStep(UUIDPrimaryKeyMixin, SQLModel, table=True):
     )
 
     step_order: int = Field(nullable=False)
-    approver_id: uuid.UUID = Field(
+    user_id: uuid.UUID = Field(
         foreign_key="users.id", nullable=False
     )
 
