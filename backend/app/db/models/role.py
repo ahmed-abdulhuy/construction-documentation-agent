@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 class Role(UUIDPrimaryKeyMixin, TimestampMixin, SQLModel, table=True):
     __tablename__ = "roles"
 
-    name: str = Field(nullable=False, unique=True, index=True)
+    name: str = Field(nullable=False, index=True)
 
     # Relationships
     assignments: list["ProjectUserRole"] = Relationship(back_populates="role")
