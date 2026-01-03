@@ -6,7 +6,8 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir debugpy # For debugging
 
 # Copy app code (both app/ and classes/)
 COPY app/ ./app
@@ -15,8 +16,5 @@ COPY app/ ./app
 # Make classes importable
 ENV PYTHONPATH=/app
 
-# Expose FastAPI port
-EXPOSE 8000
-
-# Run FastAPI
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Expose FastAPI ports
+EXPOSE 8000 5678

@@ -23,7 +23,7 @@ async def on_startup():
 
 
 # app.include_router(chroma_api.router)
-app.include_router(wir_router.wirRouter)
+# app.include_router(wir_router.wirRouter)
 app.include_router(discipline_router.router)
 app.include_router(login_router.router)
 app.include_router(user_router.router)

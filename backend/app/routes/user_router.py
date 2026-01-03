@@ -10,20 +10,19 @@ from app.utils import db_utils
 import jwt
 from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
-from app.db.models import TokenPayload, User
+from app.db.models.schemas import TokenPayload
+from app.db.models.user import User
 
 from app.core.env_settings import ENV_VARS
 from app.core.security import get_password_hash, verify_password
-from app.db.models import (
+from app.db.models.schemas import (
     Message,
     UpdatePassword,
-    User,
     UserCreate,
     UserPublic,
     UserRegister,
     UsersPublic,
     UserUpdate,
-    UserUpdateMe,
 )
 from app.utils.utils import generate_new_account_email, send_email
 
@@ -114,7 +113,7 @@ async def create_user(*, session: Annotated[AsyncSession, Depends(getAsyncDB)], 
 
 @router.patch("/me", response_model=UserPublic)
 async def update_user_me(
-    *, session: Annotated[AsyncSession, Depends(getAsyncDB)], user_in: UserUpdateMe, current_user: Annotated[User, Depends(get_current_user)]
+    *, session: Annotated[AsyncSession, Depends(getAsyncDB)], user_in: UserUpdate, current_user: Annotated[User, Depends(get_current_user)]
 ) -> Any:
     """
     Update own user.
