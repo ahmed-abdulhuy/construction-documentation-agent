@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:latest
+    image: postgres:16
     container_name: ffi-postgres-db
     restart: always
     environment:
@@ -13,18 +13,18 @@ services:
       - "5432:5432"
 
   backend:
-    build: ./
+    build: ./backend
     depends_on:
       - database
     volumes:
-      - ./:/app
+      - ./backend:/app
     ports:
       - "8000:8000" # HTTP Port
       - "5678:5678" # Debug Port
     environment:
       - PYTHONUNBUFFERED=1
     command: >
-      python -m debugpy
+      python -Xfrozen_modules=off -m debugpy
       --listen 0.0.0.0:5678
       --wait-for-client
       -m uvicorn app.main:app 

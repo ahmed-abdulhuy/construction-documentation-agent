@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
     && pip install --no-cache-dir debugpy # For debugging
 
 # Copy app code (both app/ and classes/)
-COPY app/ ./app
+COPY ./backend/ .
 # COPY classes/ ./classes
 
 # Make classes importable

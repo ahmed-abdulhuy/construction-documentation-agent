@@ -2,10 +2,7 @@ from app.routes import login_router, wir_router, user_router, chroma_api, discip
 from fastapi.middleware.cors import CORSMiddleware
 from app.db.main import initDB
 from fastapi import FastAPI
-import sys
-import os
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 app = FastAPI(title="Kemit", version="0.1.0")
 
 # Allow requests from your frontend
