@@ -5,9 +5,9 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 import jwt
 from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
-from app.db.models import TokenPayload, User
+from app.db.models.schemas import TokenPayload
 from app.core.env_settings import ENV_VARS
-from app.db.models import User
+from app.db.models.user import User
 from fastapi.security import OAuth2PasswordBearer
 
 

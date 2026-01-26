@@ -20,6 +20,7 @@ class UpdatePassword(BaseModel):
 class Message(SQLModel):
     message: str
 
+
 # Create common BaseModel for user's shared properties
 class UserBase(SQLModel):
     # User fields
@@ -28,9 +29,11 @@ class UserBase(SQLModel):
     is_active: bool = True
     is_superuser: bool = False
 
+
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     password: str = Field(min_length=8, max_length=128)
+
 
 class UserUpdateMe(BaseModel):
     name: str | None = Field(default=None, max_length=255)
@@ -48,9 +51,11 @@ class UserUpdate(UserBase):
     email: EmailStr | None = Field(default=None, max_length=255)  # type: ignore
     password: str | None = Field(default=None, min_length=8, max_length=128)
 
+
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
     id: uuid.UUID
+
 
 class UsersPublic(SQLModel):
     data: list[UserPublic]

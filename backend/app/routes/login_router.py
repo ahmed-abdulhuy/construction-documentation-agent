@@ -35,16 +35,7 @@ async def login_access_token(
     # refresh_token = security.create_refresh_token(user.id, expires_delta=refresh_expires)
     
     # Set HttpOnly cookies
-    response.set_cookie(
-        key="access_token",
-        value=access_token,
-        httponly=True,
-        secure=True,     # set to False for local development if needed
-        samesite="lax",
-        max_age=access_expires.seconds,
-        path="/",
-    )
-
+ 
     # response.set_cookie(
     #     key="refresh_token",
     #     value=refresh_token,

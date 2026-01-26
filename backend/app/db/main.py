@@ -2,7 +2,10 @@ from sqlmodel import SQLModel
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlalchemy.orm import sessionmaker
-from app.db.models import *
+from app.db.models.organization import *
+from app.db.models.user import *
+from app.db.models.project import *
+from app.db.models.role import *
 from app.core.env_settings import ENV_VARS
 from sqlmodel import select
 from app.core.security import get_password_hash
@@ -27,7 +30,7 @@ async def create_first_superuser():
         # Create a new superuser
         user = User(
             email="admin@example.com",
-            name="Admin User",
+            full_name="Admin User",
             is_superuser=True,
             is_active=True,
             hashed_password=get_password_hash("FFI_CONTRACTING2024!"),
