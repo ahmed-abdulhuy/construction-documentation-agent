@@ -22,3 +22,10 @@ This RAG pipeline allows users to query a document tracking log using natural la
 
 In many construction and engineering projects, document control is critical. Logs tracking the status of inspection requests, shop drawings, and various management approvals are often used to monitor project progress. This project explores using a RAG pipeline to make these logs more accessible and queryable by natural language.
 
+---
+### Start Project
+Just run
+
+``` bash
+docker compose up
+```
